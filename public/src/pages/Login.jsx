@@ -8,7 +8,7 @@ import axios from 'axios';
 import { loginRoute } from "../utils/APIRoutes";
 
 function Login() {
-    const naviate = useNavigate();
+    const navigate = useNavigate();
 
     const [values, setValues] = useState({
         username: "", 
@@ -24,8 +24,9 @@ function Login() {
     };
 
 
-    const handleSubmit =async (event)=> {
+    const handleSubmit = async (event)=> {
         event.preventDefault();
+        console.log("inside handle submit")
         if (handleValidation()) {
             console.log("in validation:", loginRoute)
             const {password, username} = values;
@@ -39,8 +40,8 @@ function Login() {
             if (data.status===true){
                 localStorage.setItem('chat-app-user',JSON.stringify(data.user));
             }
-            Navigate("/");
-       };
+            navigate("/");
+        };
     };
 
     const handleValidation =()=> {
@@ -72,7 +73,7 @@ function Login() {
             </div>
             <input type="text" placeholder="Username" name="username" min="3" onChange={e=>handleChange(e)}  />
             <input type="password" placeholder="Password" name="password" onChange={e=>handleChange(e)}  />
-            <button type="submit">Login</button>
+            <button type="submit">Lololo</button>
             <span>Don't have an account? <Link to="/register">Register</Link></span>
         </form>
     </FormContainer>

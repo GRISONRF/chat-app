@@ -26,4 +26,4 @@ build/
 *.log
 *.env
 .DS_Store
-./server/.env
+server/.env
