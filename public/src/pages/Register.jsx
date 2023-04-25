@@ -8,7 +8,7 @@ import axios from 'axios';
 import { registerRoute } from "../utils/APIRoutes";
 
 function Register() {
-    const naviate = useNavigate();
+    const navigate = useNavigate();
 
     const [values, setValues] = useState({
         username: "",
@@ -41,8 +41,8 @@ function Register() {
             }
             if (data.status===true){
                 localStorage.setItem('chat-app-user',JSON.stringify(data.user));
+                navigate("/");
             }
-            Navigate("/");
        };
     };
 

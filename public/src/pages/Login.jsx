@@ -39,9 +39,9 @@ function Login() {
             }
             if (data.status===true){
                 localStorage.setItem('chat-app-user',JSON.stringify(data.user));
-            }
-            navigate("/");
-        };
+                navigate("/");
+              }
+      };
     };
 
     const handleValidation =()=> {
@@ -50,12 +50,9 @@ function Login() {
             toast.error("Email and Password required", toastOptions);
             return false;
         } else if (username.length === "") {
-            toast.error(
-              "Email and Password required", toastOptions
-            );
+            toast.error("Email and Password required", toastOptions);
             return false;
           }
-      
           return true;
         };
 
@@ -73,7 +70,7 @@ function Login() {
             </div>
             <input type="text" placeholder="Username" name="username" min="3" onChange={e=>handleChange(e)}  />
             <input type="password" placeholder="Password" name="password" onChange={e=>handleChange(e)}  />
-            <button type="submit">Lololo</button>
+            <button type="submit">Login</button>
             <span>Don't have an account? <Link to="/register">Register</Link></span>
         </form>
     </FormContainer>
