@@ -1,5 +1,5 @@
 const User = require("../model/userModel");
-const brcrypt = require("bcrypt"); //to encrypt the password
+const bcrypt = require("bcrypt"); //to encrypt the password
 
 module.exports.register = async (req,res,next) => {
     try {
@@ -10,7 +10,7 @@ module.exports.register = async (req,res,next) => {
     const emailCheck = await User.findOne({email});
     if (emailCheck)
         return res.json({ msg: "Email already used", status:false});
-    const hashedPassword = await brcrypt.hash(password, 10);
+    const hashedPassword = await bcrypt.hash(password, 10);
     const user = await User.create({
         email,
         username,
@@ -40,3 +40,24 @@ module.exports.login = async (req,res,next) => {
         next(ex)
     }
 };
+
+module.exports.setAvatar = async (req, res, next) => {
+    try {
+      const userId = req.params.id;
+      const avatarImage = req.body.image;
+      const userData = await User.findByIdAndUpdate(
+        userId,
+        {
+          isAvatarImageSet: true,
+          avatarImage,
+        },
+        { new: true }
+      );
+      return res.json({
+        isSet: userData.isAvatarImageSet,
+        image: userData.avatarImage,
+      });
+    } catch (ex) {
+      next(ex);
+    }
+  };

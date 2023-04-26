@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import logo from "../assets/logo.png";
 import {ToastContainer, toast} from "react-toastify";
@@ -23,41 +23,43 @@ function Login() {
         theme: "dark"
     };
 
-
-    const handleSubmit = async (event)=> {
-        event.preventDefault();
-        console.log("inside handle submit")
-        if (handleValidation()) {
-            console.log("in validation:", loginRoute)
-            const {password, username} = values;
-            const {data} = await axios.post(loginRoute,{
-                username,
-                password,
-            });
-            if (data.status===false){
-                toast.error(data.msg, toastOptions);
-            }
-            if (data.status===true){
-                localStorage.setItem('chat-app-user',JSON.stringify(data.user));
-                navigate("/");
-              }
-      };
+    const handleSubmit = async (event) => {
+      event.preventDefault();
+      if(handleValidation()){
+        //console.log("in validation ",registerRoute);
+        const {password,username}=values;
+        const {data}=await axios.post(loginRoute,{
+          username,
+          password, 
+        });
+        if(data.status===false){
+          toast.error(data.msg,toastOptions);
+        }
+        if(data.status===true){
+          localStorage.setItem('chat-app-user',JSON.stringify(data.user));
+          navigate("/"); 
+        }
+      }
     };
 
-    const handleValidation =()=> {
-        const {password, username} = values;
-        if(password === "") {
-            toast.error("Email and Password required", toastOptions);
-            return false;
-        } else if (username.length === "") {
-            toast.error("Email and Password required", toastOptions);
-            return false;
-          }
-          return true;
-        };
-
+    const handleValidation = (event) => {
+      const { password,username} = values;
+      if (password==="") {
+        toast.error("Email and Password is required ",toastOptions);
+        return false;
+      }
+      else if(username.length===0){
+        toast.error("Email and Password is required",toastOptions);
+        return false;
+      }
+      else if(password.length<8){
+        toast.error("Password should be greater than or equal to 8 characters",toastOptions);
+        return false;
+      }
+      return true;
+    };
     const handleChange = (event) => {
-        setValues({...values,[event.target.name]:event.target.value});
+      setValues({ ...values, [event.target.name]: event.target.value });
     };
 
   return (
@@ -68,8 +70,8 @@ function Login() {
                 <img src={logo} alt="Logo" />
                 <h1>snappy</h1>
             </div>
-            <input type="text" placeholder="Username" name="username" min="3" onChange={e=>handleChange(e)}  />
-            <input type="password" placeholder="Password" name="password" onChange={e=>handleChange(e)}  />
+            <input type="text" placeholder="Username" name="username" min="3" onChange={event=>handleChange(event)}  />
+            <input type="password" placeholder="Password" name="password" onChange={event=>handleChange(event)}  />
             <button type="submit">Login</button>
             <span>Don't have an account? <Link to="/register">Register</Link></span>
         </form>
@@ -155,4 +157,4 @@ const FormContainer = styled.div`
 `;
 
 
-export default Login
+export default Login;
